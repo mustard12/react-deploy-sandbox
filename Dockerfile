@@ -5,4 +5,6 @@ COPY . .
 
 EXPOSE 3000
 
+WORKDIR /app/blue-gree-poc
+
 CMD ["npm", "start"]
