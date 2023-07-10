@@ -1,13 +1,18 @@
 variables:
   APP_NAME: "react-sample"
   NAMESPACE: "arbeon-chatops"
-  ECR_REPO_URL: 873799242473.dkr.ecr.ap-northeast-2.amazonaws.com/utils
+  ECR_REPO_URL: 873799242473.dkr.ecr.ap-northeast-2.amazonaws.com
   ECR_TOKEN: secret-password
 
   SERVICE_PORT: 3000
+  SERVICE_TYPE: "ClusterIP"
+
+  INGRESS_HOST: "dev-react.arbeon.com"
+  KUBE_CONFIG: ${DEV_KUBE_CONFIG}
 
 stages:
   - build
+  - deploy
 
 docker-image:
   stage: build
@@ -18,7 +23,55 @@ docker-image:
     - if [ "$CI_COMMIT_TAG" ]; then IMAGE_TAG=${CI_COMMIT_TAG}; else IMAGE_TAG=${CI_COMMIT_SHORT_SHA}; fi
     - echo ${IMAGE_TAG}
     - docker build -t ${APP_NAME} .
-    - docker tag ${APP_NAME} ${ECR_REPO_URL}/${APP_NAME}:${IMAGE_TAG}
-    - docker push ${ECR_REPO_URL}/${APP_NAME}:${IMAGE_TAG}
+    - docker tag ${APP_NAME} ${ECR_REPO_URL}/utils/${APP_NAME}:${IMAGE_TAG}
+    - docker push ${ECR_REPO_URL}/utils/${APP_NAME}:${IMAGE_TAG}
   tags:
     - dev
+
+  deploy:
+  stage: deploy
+  tags:
+    - dev
+  image: ${ECR_REPO_URL}/utils/aws-helm:5a7e2aa0
+  before_script:
+    - if [ -z "$IMAGE_TAG" ]; then echo "IMAGE_TAG not exist" && exit -1; else echo ${IMAGE_TAG}; fi
+  script:
+    # Kubeconfig 생성
+    - mkdir ${HOME}/.kube
+    - base64 --decode ${KUBE_CONFIG} >> ${HOME}/.kube/config
+    - kubectl get nodes
+    # 이전에 생성된 ecr-secret 삭제 -> 같은 네임스페이스에서 중복 생성 시 에러 발생
+    - |
+      if [[ $(kubectl get secret ecr-secret -n=${NAMESPACE} -o jsonpath='{.data.\.dockerconfigjson}' 2>/dev/null) ]]; then
+        echo "ecr-secret이 있어서 삭제합니다."
+        kubectl delete secrets ecr-secret -n $NAMESPACE
+      else
+        echo "ecr-secrt이 없습니다."
+      fi
+    # Token 변수 저장
+    - export PASSWORD=$(aws ecr get-login-password --region $AWS_REGION)
+    # values ymal 파일에 변수 주입
+    - envsubst < helm/values.yaml.template > ./helm/values.yaml
+    # ECR Token 갱신
+    - sed -i s/secret-password/$PASSWORD/g helm/values.yaml
+    - helm upgrade ${APP_NAME} ./helm --install --values=./helm/values.yaml --create-namespace --namespace=${NAMESPACE}
+  only:
+    - main
+  environment:
+    name: dev
+    url: https://${INGRESS_HOST}
+    on_stop: stop-helm
+
+stop-helm:
+  stage: deploy
+  image: ${ECR_REPO_URL}/utils/aws-helm:5a7e2aa0
+  script:
+    - mkdir ${HOME}/.kube
+    - base64 --decode ${KUBE_CONFIG} >> ${HOME}/.kube/config
+    - helm uninstall ${APP_NAME} --namespace=${NAMESPACE}
+  only:
+    - main
+  environment:
+    name: dev
+    action: stop
+  when: manual
