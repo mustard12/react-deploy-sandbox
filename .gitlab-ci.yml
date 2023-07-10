@@ -28,7 +28,7 @@ docker-image:
   tags:
     - dev
 
-  deploy:
+deploy:
   stage: deploy
   tags:
     - dev
