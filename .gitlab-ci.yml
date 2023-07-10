@@ -1,5 +1,5 @@
 variables:
-  APP_NAME: "react-sample"
+  APP_NAME: "react"
   NAMESPACE: "arbeon-chatops"
   ECR_REPO_URL: 873799242473.dkr.ecr.ap-northeast-2.amazonaws.com
   ECR_TOKEN: secret-password
