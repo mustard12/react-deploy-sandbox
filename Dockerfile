@@ -5,7 +5,7 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:1.21.0-alpine AS nginx
+FROM nginx:1.25.1 AS nginx
 
 COPY --from=builder /app/build /usr/share/nginx/html
 
