@@ -22,7 +22,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "React.serviceAccountName" . }}
+      serviceAccountName: {{ include "react.serviceAccountName" . }}
       containers:
         - name: {{ .Values.labels.app }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
