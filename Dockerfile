@@ -7,7 +7,7 @@ RUN npm run build
 
 FROM nginx:1.25.1 AS nginx
 
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
