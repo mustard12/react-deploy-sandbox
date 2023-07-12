@@ -87,5 +87,13 @@ autoscaling:
   targetCPUUtilizationPercentage: 50
   # targetMemoryUtilizationPercentage: 80
 
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
 nodeSelector:
   node: worker
