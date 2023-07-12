@@ -57,8 +57,8 @@ deploy:
     # ECR Token 갱신
     - sed -i s/secret-password/$PASSWORD/g helm/values.yaml
     - helm upgrade ${APP_NAME} ./helm --install --values=./helm/values.yaml --create-namespace --namespace=${NAMESPACE}
-  only:
-    - main
+  # only:
+  #   - main
   environment:
     name: dev
     url: https://${INGRESS_HOST}
