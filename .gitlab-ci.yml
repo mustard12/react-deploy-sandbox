@@ -1,6 +1,6 @@
 variables:
   APP_NAME: "react"
-  NAMESPACE: "arbeon-chatops"
+  NAMESPACE: "hpa-poc"
   ECR_REPO_URL: 873799242473.dkr.ecr.ap-northeast-2.amazonaws.com
   ECR_TOKEN: secret-password
 
@@ -8,7 +8,7 @@ variables:
   SERVICE_TYPE: "ClusterIP"
 
   CERT_DNS: "*.arbeon.com"
-  INGRESS_HOST: "dev-react.arbeon.com"
+  INGRESS_HOST: "dev-hpa.arbeon.com"
   KUBE_CONFIG: ${DEV_KUBE_CONFIG}
   IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}
 
