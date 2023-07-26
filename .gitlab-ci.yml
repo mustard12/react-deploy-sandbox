@@ -34,8 +34,7 @@ stages:
 
 test-workflow:
   image: docker:latest
-  stage:
-    - test
+  stage: test
   tags:
     - dev
   script:
