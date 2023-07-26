@@ -20,18 +20,12 @@ workflow:
   rules:
     - if: $CI_COMMIT_BRANCH =~ /feature/
       variables:
-
-
     - if: $CI_COMMIT_BRANCH == "develop"
       variables:
-
-
     # integration 브랜치 Push 또는 Web Pipeline
     - if: $CI_COMMIT_BRANCH == "integration" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "integration"
       variables:
-    
     - when: always
-      variables:
 
 stages:
   - semantic-versioning
@@ -40,10 +34,14 @@ stages:
 
 test-workflow:
   image: docker:latest
+  stage: test
+  tags:
+    - dev
   script:
     - echo ${CI_PIPELINE_SOURCE}
     - echo ${CI_COMMIT_BRANCH}
     - echo ${CI_COMMIT_REF_NAME}
     - echo ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
+  
   
 

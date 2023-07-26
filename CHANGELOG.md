@@ -1,3 +1,11 @@
+## [1.0.1](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.0...v1.0.1) (2023-07-26)
+
+
+### Bug Fixes
+
+* [ARBEON-4972] syntax 에러 수정 ([0b8816a](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/commit/0b8816a341c213dd66d60dd6ac3848301a1f78b4))
+* [ARBEON-4972] test stage 추가 ([2e667af](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/commit/2e667af1370875ddf14cdbd4c06ebad122e1a781))
+
 # 1.0.0 (2023-07-26)
 
 
