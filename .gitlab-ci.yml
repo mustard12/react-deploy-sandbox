@@ -32,6 +32,7 @@ test-workflow:
     - echo ${CI_COMMIT_BRANCH}
     - echo ${CI_COMMIT_REF_NAME}
     - echo ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
+    - echo ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}
   
   
 
