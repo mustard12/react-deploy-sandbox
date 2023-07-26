@@ -1,3 +1,10 @@
+## [1.0.2](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.1...v1.0.2) (2023-07-26)
+
+
+### Bug Fixes
+
+* [ARBEON-4972] integration 워크플로우 삭제 ([68d5e8b](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/commit/68d5e8bf5916d491fa738fb3e112b97955ef7e33))
+
 ## [1.0.1](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.0...v1.0.1) (2023-07-26)
 
 
