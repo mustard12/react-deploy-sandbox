@@ -1,3 +1,10 @@
+## [1.0.16](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.15...v1.0.16) (2023-07-27)
+
+
+### Bug Fixes
+
+* [ARBEON-4972] --no-ci 옵션 추가 ([703f107](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/commit/703f10777f12d0400f165552175550e6f880ced2))
+
 ## [1.0.15](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.14...v1.0.15) (2023-07-27)
 
 
