@@ -1,3 +1,11 @@
+## [1.0.6](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.5...v1.0.6) (2023-07-27)
+
+
+### Bug Fixes
+
+* [ARBEON-4972] except syntax 에러 수정 ([42100e6](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/commit/42100e6fde940bdbca1f715664a410b89498b2e3))
+* [ARBEON-4972] excepts 추가 ([77d27f1](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/commit/77d27f1594f9abfe6b7498062fa1d0092386c181))
+
 ## [1.0.3](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.2...v1.0.3) (2023-07-26)
 
 
