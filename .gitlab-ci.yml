@@ -1,7 +1,3 @@
-include:
-  - project: 'ETC/devops/cicd-templates'
-    file: 'semantic-versioning.yml'
-
 variables:
   APP_NAME: "react"
   NAMESPACE: "arbeon-chatops"
@@ -20,6 +16,28 @@ variables:
 stages:
   - semantic-versioning
   - test
+
+
+semantic-versioning:
+  stage: semantic-versioning
+  image: ${ECR_REPO_URL}/utils/aws-helm:1.0.0
+  variables:
+    GIT_STRATEGY: clone
+  script:
+    - git fetch --prune-tags
+    - npx semantic-release --ci true
+  after_script: # 다음 스테이지에 git 설치 안하기 위해서 버전을 파일로 저장
+    - echo "after versioning"
+    - latest_version=$(git describe --tags --abbrev=0)
+    - echo $latest_version
+    - echo "export latest_version=$latest_version" > ./version.txt
+  artifacts:
+    paths:
+      - ./version.txt
+  only:
+    - develop
+  tags:
+    - dev
 
 
 test-workflow:
