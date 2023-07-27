@@ -36,15 +36,18 @@ semantic-versioning:
       - ./version.txt
   only:
     - develop
+  excepts:
+    - tags
   tags:
     - dev
-
 
 test-workflow:
   image: docker:latest
   stage: test
   tags:
     - dev
+  excepts:
+    - tags
   script:
     - echo ${CI_PIPELINE_SOURCE}
     - echo ${CI_COMMIT_BRANCH}
