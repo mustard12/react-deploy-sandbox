@@ -5,7 +5,7 @@ variables:
   ECR_TOKEN: secret-password
 
   SERVICE_PORT: 80
-  SERVICE_TYPE: "NodePort"
+  SERVICE_TYPE: "ClusterIP"
 
   CERT_DNS: "*.arbeon.com"
   INGRESS_HOST: "dev-hpa.arbeon.com"
