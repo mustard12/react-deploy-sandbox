@@ -1,3 +1,10 @@
+## [1.0.13](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.12...v1.0.13) (2023-07-27)
+
+
+### Bug Fixes
+
+* [ARBEON-4972] message 변경 ([76a77b1](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/commit/76a77b168922ea6f67049d65644377f3f02b54e7))
+
 ## [1.0.12](https://gitlab.arbeon.com/etc/devops/poc/react-deploy-sandbox/compare/v1.0.11...v1.0.12) (2023-07-27)
 
 
