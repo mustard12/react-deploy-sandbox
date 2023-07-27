@@ -10,8 +10,7 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["package.json"],
-        "message": "chore(release): hello world"
+        "message": "chore(release): ${nextRelease.version} \n\n${nextRelease.notes}"
       }
     ]
   ]
