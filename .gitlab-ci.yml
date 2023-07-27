@@ -36,7 +36,7 @@ semantic-versioning:
       - ./version.txt
   only:
     - develop
-  excepts:
+  except:
     - tags
   tags:
     - dev
@@ -46,7 +46,7 @@ test-workflow:
   stage: test
   tags:
     - dev
-  excepts:
+  except:
     - tags
   script:
     - echo ${CI_PIPELINE_SOURCE}
