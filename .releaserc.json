@@ -6,13 +6,7 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
-    "@semantic-release/gitlab",
-    [
-      "@semantic-release/git",
-      {
-        "message": "chore(release): 메롱"
-      }
-    ]
+    "@semantic-release/gitlab"
   ]
 }
 
