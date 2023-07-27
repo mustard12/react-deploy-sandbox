@@ -5,6 +5,8 @@
 replicaCount: 1
 revisionHistoryLimit: 1
 
+minReadySeconds: 2
+
 namespace: "${NAMESPACE}"
 
 labels:
