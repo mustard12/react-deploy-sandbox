@@ -5,75 +5,45 @@ variables:
   ECR_TOKEN: secret-password
 
   SERVICE_PORT: 80
-  SERVICE_TYPE: "ClusterIP"
+  SERVICE_TYPE: "NodePort"
 
   CERT_DNS: "*.arbeon.com"
-  INGRESS_HOST: "dev-react.arbeon.com"
-  KUBE_CONFIG: ${DEV_KUBE_CONFIG}
-  IMAGE_TAG: ${CI_COMMIT_SHORT_SHA}
+  INGRESS_HOST: "react.arbeon.com"
+  IMAGE_TAG: "b16d19f2"
+  AWS_REGION: "us-west-1"
+  ENV: "production-us"
+  EKS_CLUSTER_NAME: "us-arbeon-production-cls"
 
 stages:
-  - build
   - deploy
-
-docker-image:
-  stage: build
-  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
-  services:
-    - docker:20.10.16-dind
-  script:
-    - if [ "$CI_COMMIT_TAG" ]; then IMAGE_TAG=${CI_COMMIT_TAG}; else IMAGE_TAG=${CI_COMMIT_SHORT_SHA}; fi
-    - echo ${IMAGE_TAG}
-    - docker build -t ${APP_NAME} .
-    - docker tag ${APP_NAME} ${ECR_REPO_URL}/utils/${APP_NAME}:${IMAGE_TAG}
-    - docker push ${ECR_REPO_URL}/utils/${APP_NAME}:${IMAGE_TAG}
-  tags:
-    - dev
 
 deploy:
   stage: deploy
-  tags:
-    - dev
-  image: ${ECR_REPO_URL}/utils/aws-helm:5a7e2aa0
-  before_script:
-    - if [ -z "$IMAGE_TAG" ]; then echo "IMAGE_TAG not exist" && exit -1; else echo ${IMAGE_TAG}; fi
+  image: ${ECR_REPO_URL}/utils/aws-helm:1.0.0
   script:
-    # Kubeconfig 생성
-    - mkdir ${HOME}/.kube
-    - base64 --decode ${KUBE_CONFIG} >> ${HOME}/.kube/config
+    - aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER_NAME
     - kubectl get nodes
-    # 이전에 생성된 ecr-secret 삭제 -> 같은 네임스페이스에서 중복 생성 시 에러 발생
-    - |
-      if [[ $(kubectl get secret ecr-secret -n=${NAMESPACE} -o jsonpath='{.data.\.dockerconfigjson}' 2>/dev/null) ]]; then
-        echo "ecr-secret이 있어서 삭제합니다."
-        kubectl delete secrets ecr-secret -n $NAMESPACE
-      else
-        echo "ecr-secrt이 없습니다."
-      fi
-    # Token 변수 저장
-    - export PASSWORD=$(aws ecr get-login-password --region $AWS_REGION)
     # values ymal 파일에 변수 주입
-    - envsubst < helm/values.yaml.template > ./helm/values.yaml
-    # ECR Token 갱신
-    - sed -i s/secret-password/$PASSWORD/g helm/values.yaml
-    - helm upgrade ${APP_NAME} ./helm --install --values=./helm/values.yaml --create-namespace --namespace=${NAMESPACE}
-  only:
-    - main
+    - envsubst < helm-eks/values.yaml.template > ./helm-eks/values.yaml
+    - helm upgrade ${APP_NAME} ./helm-eks --install --values=./helm-eks/values.yaml --create-namespace --namespace=${NAMESPACE}
+  tags:
   environment:
-    name: dev
+    name: ${ENV}
     url: https://${INGRESS_HOST}
-    on_stop: stop-helm
+    on_stop: stop-helm-eks
 
-stop-helm:
+stop-helm-eks:
   stage: deploy
-  image: ${ECR_REPO_URL}/utils/aws-helm:5a7e2aa0
+  image: ${ECR_REPO_URL}/utils/aws-helm:1.0.0
   script:
-    - mkdir ${HOME}/.kube
-    - base64 --decode ${KUBE_CONFIG} >> ${HOME}/.kube/config
+    - aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER_NAME
     - helm uninstall ${APP_NAME} --namespace=${NAMESPACE}
-  only:
-    - main
+  tags:
+    - aws-runner
+  except:
+    - tags
   environment:
-    name: dev
+    name: ${ENV}
     action: stop
   when: manual
+
