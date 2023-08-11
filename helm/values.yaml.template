@@ -46,9 +46,7 @@ service:
 
 ingress:
   enabled: true
-  className: "nginx"
-  annotations:
-    className: "alb"
+  className: "alb"    
   annotations:
     alb.ingress.kubernetes.io/group.name: "arbeon-${ENV}-${ALB_NAME}-group"
     alb.ingress.kubernetes.io/load-balancer-name: "arbeon-${ENV}-${ALB_NAME}"
