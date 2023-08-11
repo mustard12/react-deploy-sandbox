@@ -24,15 +24,15 @@ deploy:
     - aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER_NAME
     - kubectl get nodes
     # values ymal 파일에 변수 주입
-    - envsubst < helm-eks/values.yaml.template > ./helm-eks/values.yaml
-    - helm upgrade ${APP_NAME} ./helm-eks --install --values=./helm-eks/values.yaml --create-namespace --namespace=${NAMESPACE}
+    - envsubst < helm/values.yaml.template > ./helm/values.yaml
+    - helm upgrade ${APP_NAME} ./helm --install --values=./helm/values.yaml --create-namespace --namespace=${NAMESPACE}
   tags:
   environment:
     name: ${ENV}
     url: https://${INGRESS_HOST}
-    on_stop: stop-helm-eks
+    on_stop: stop-helm
 
-stop-helm-eks:
+stop-helm:
   stage: deploy
   image: ${ECR_REPO_URL}/utils/aws-helm:1.0.0
   script:
