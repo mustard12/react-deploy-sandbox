@@ -14,6 +14,12 @@ variables:
   ENV: "production-us"
   EKS_CLUSTER_NAME: "us-arbeon-production-cls"
 
+   # INGRESS
+  ALB_NAME: "grpc-alb"
+  ALB_SCHEME: "internet-facing"
+  # "*.arbeon.com" cert-arn
+  ALB_CERT_ARN: "arn:aws:acm:us-west-1:873799242473:certificate/855e930e-2050-47a4-89d9-ad96275ed71b"
+
 stages:
   - deploy
 
@@ -26,7 +32,9 @@ deploy:
     # values ymal 파일에 변수 주입
     - envsubst < helm/values.yaml.template > ./helm/values.yaml
     - helm upgrade ${APP_NAME} ./helm --install --values=./helm/values.yaml --create-namespace --namespace=${NAMESPACE}
+    - cat ./helm/values.yaml
   tags:
+    - aws-runner
   environment:
     name: ${ENV}
     url: https://${INGRESS_HOST}
