@@ -7,7 +7,7 @@ variables:
   SERVICE_PORT: 80
   SERVICE_TYPE: "NodePort"
 
-  CERT_DNS: "*.arbeon.com"
+  CERT_DNS: "react.arbeon.com"
   INGRESS_HOST: "react.arbeon.com"
   IMAGE_TAG: "b16d19f2"
   AWS_REGION: "us-west-1"
