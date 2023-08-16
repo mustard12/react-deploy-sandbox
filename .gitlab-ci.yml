@@ -7,8 +7,8 @@ variables:
   SERVICE_PORT: 80
   SERVICE_TYPE: "NodePort"
 
-  CERT_DNS: "react.staging-merge.com"
-  INGRESS_HOST: "react.staging-merge.com"
+  CERT_DNS: "*.arbeon.com"
+  INGRESS_HOST: "react.arbeon.com"
   IMAGE_TAG: "b16d19f2"
   AWS_REGION: "us-west-1"
   ENV: "production-us"
