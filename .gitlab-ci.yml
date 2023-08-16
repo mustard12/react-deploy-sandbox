@@ -10,15 +10,17 @@ variables:
   CERT_DNS: "react.arbeon.com"
   INGRESS_HOST: "react.arbeon.com"
   IMAGE_TAG: "b16d19f2"
-  AWS_REGION: "us-west-1"
-  ENV: "production-us"
-  EKS_CLUSTER_NAME: "us-arbeon-production-cls"
+  AWS_REGION: "ap-northeast-2"
+  ENV: "production"
+  EKS_CLUSTER_NAME: "arbeon-production-cls"
 
    # INGRESS
   ALB_NAME: "grpc-alb"
   ALB_SCHEME: "internet-facing"
-  # "*.arbeon.com" cert-arn
-  ALB_CERT_ARN: "arn:aws:acm:us-west-1:873799242473:certificate/855e930e-2050-47a4-89d9-ad96275ed71b"
+  # "*.arbeon.com" cert-arn AS
+  ALB_CERT_ARN: "arn:aws:acm:ap-northeast-2:873799242473:certificate/9f247e95-7e34-4921-b07d-90fe76924a44"
+  # "*.arbeon.com" cert-arn US
+  # ALB_CERT_ARN: "arn:aws:acm:us-west-1:873799242473:certificate/855e930e-2050-47a4-89d9-ad96275ed71b"
   # "*.staging-merge.com" cert-arn
   # ALB_CERT_ARN: "arn:aws:acm:us-west-1:873799242473:certificate/a8698851-7dd3-4c4d-afe4-83f2d60e4031"
 
