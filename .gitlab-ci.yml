@@ -15,7 +15,7 @@ variables:
   EKS_CLUSTER_NAME: "arbeon-production-cls"
 
    # INGRESS
-  ALB_NAME: "grpc-alb"
+  ALB_NAME: "react-alb"
   ALB_SCHEME: "internet-facing"
   # "*.arbeon.com" cert-arn AS
   ALB_CERT_ARN: "arn:aws:acm:ap-northeast-2:873799242473:certificate/9f247e95-7e34-4921-b07d-90fe76924a44"
