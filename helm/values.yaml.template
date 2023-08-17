@@ -56,8 +56,8 @@ ingress:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
     alb.ingress.kubernetes.io/certificate-arn: "${ALB_CERT_ARN}"
     alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
-    # external-dns.alpha.kubernetes.io/aws-geolocation-continent-code: AS
-    # external-dns.alpha.kubernetes.io/set-identifier: as
+    external-dns.alpha.kubernetes.io/aws-geolocation-continent-code: AS
+    external-dns.alpha.kubernetes.io/set-identifier: as
     # external-dns.alpha.kubernetes.io/hostname: ${INGRESS_HOST}
     # alb.ingress.kubernetes.io/load-balancer-attributes: access_logs.s3.enabled=true,access_logs.s3.bucket=arbeon-${ENV}-alb-access-logs,access_logs.s3.prefix=${ALB_NAME}
   tls:
