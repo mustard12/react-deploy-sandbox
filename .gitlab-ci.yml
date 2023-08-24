@@ -5,13 +5,43 @@ include:
 
 
 code_quality:
+  after_script:
+     - |
+      index=0
+      jq -c --arg CI_COMMIT_TIMESTAMP $CI_COMMIT_TIMESTAMP --arg CI_PROJECT_NAME $CI_PROJECT_NAME --arg CI_PIPELINE_URL $CI_PIPELINE_URL --arg CI_JOB_NAME $CI_JOB_NAME '.[].timestamp=$CI_COMMIT_TIMESTAMP | .[].project=$CI_PROJECT_NAME | .[].pipeline=$CI_PIPELINE_URL | .[].job=$CI_JOB_NAME | .[]' gl-code-quality-report.json | while IFS= read -r item; do
+        output=$(echo "$item" | sed "s/'//g")
+        filename="gl-sast-${index}.json"
+        printf "%s\n" "$output" > ./$filename
+        cat $filename
+        index=$((index+1))
+      done 
   tags:
     - dev
 
 secret_detection:
+  after_script:
+     - |
+      index=0
+      jq -c --arg CI_COMMIT_TIMESTAMP $CI_COMMIT_TIMESTAMP --arg CI_PROJECT_NAME $CI_PROJECT_NAME --arg CI_PIPELINE_URL $CI_PIPELINE_URL --arg CI_JOB_NAME $CI_JOB_NAME '.vulnerabilities[].timestamp=$CI_COMMIT_TIMESTAMP | .vulnerabilities[].project=$CI_PROJECT_NAME | .vulnerabilities[].pipeline=$CI_PIPELINE_URL | .vulnerabilities[].job=$CI_JOB_NAME | .vulnerabilities[]' gl-secret-detection-report.json | while IFS= read -r item; do
+        output=$(echo "$item" | sed "s/'//g")
+        filename="gl-sast-report-${index}.json"
+        printf "%s\n" "$output" > ./$filename
+        cat $filename
+        index=$((index+1))
+      done 
   tags:
     - dev
 
 semgrep-sast:
+  after_script:
+     - |
+      index=0
+      jq -c --arg CI_COMMIT_TIMESTAMP $CI_COMMIT_TIMESTAMP --arg CI_PROJECT_NAME $CI_PROJECT_NAME --arg CI_PIPELINE_URL $CI_PIPELINE_URL '.vulnerabilities[].timestamp=$CI_COMMIT_TIMESTAMP | .vulnerabilities[].project=$CI_PROJECT_NAME | .vulnerabilities[].pipeline=$CI_PIPELINE_URL | .vulnerabilities[]' gl-sast-report.json | while IFS= read -r item; do
+        output=$(echo "$item" | sed "s/'//g")
+        filename="gl-sast-report-${index}.json"
+        printf "%s\n" "$output" > ./$filename
+        cat $filename
+        index=$((index+1))
+      done 
   tags:
     - dev
