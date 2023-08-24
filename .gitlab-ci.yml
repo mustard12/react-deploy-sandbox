@@ -6,7 +6,8 @@ include:
 
 code_quality:
   after_script:
-     - |
+    - apt-get install -y jq && apt-get install -y bc
+    - |
       index=0
       jq -c --arg CI_COMMIT_TIMESTAMP $CI_COMMIT_TIMESTAMP --arg CI_PROJECT_NAME $CI_PROJECT_NAME --arg CI_PIPELINE_URL $CI_PIPELINE_URL --arg CI_JOB_NAME $CI_JOB_NAME '.[].timestamp=$CI_COMMIT_TIMESTAMP | .[].project=$CI_PROJECT_NAME | .[].pipeline=$CI_PIPELINE_URL | .[].job=$CI_JOB_NAME | .[]' gl-code-quality-report.json | while IFS= read -r item; do
         output=$(echo "$item" | sed "s/'//g")
@@ -20,7 +21,8 @@ code_quality:
 
 secret_detection:
   after_script:
-     - |
+    - apt-get install -y jq && apt-get install -y bc
+    - |
       index=0
       jq -c --arg CI_COMMIT_TIMESTAMP $CI_COMMIT_TIMESTAMP --arg CI_PROJECT_NAME $CI_PROJECT_NAME --arg CI_PIPELINE_URL $CI_PIPELINE_URL --arg CI_JOB_NAME $CI_JOB_NAME '.vulnerabilities[].timestamp=$CI_COMMIT_TIMESTAMP | .vulnerabilities[].project=$CI_PROJECT_NAME | .vulnerabilities[].pipeline=$CI_PIPELINE_URL | .vulnerabilities[].job=$CI_JOB_NAME | .vulnerabilities[]' gl-secret-detection-report.json | while IFS= read -r item; do
         output=$(echo "$item" | sed "s/'//g")
@@ -34,7 +36,8 @@ secret_detection:
 
 semgrep-sast:
   after_script:
-     - |
+    - apt-get install -y jq && apt-get install -y bc
+    - |
       index=0
       jq -c --arg CI_COMMIT_TIMESTAMP $CI_COMMIT_TIMESTAMP --arg CI_PROJECT_NAME $CI_PROJECT_NAME --arg CI_PIPELINE_URL $CI_PIPELINE_URL '.vulnerabilities[].timestamp=$CI_COMMIT_TIMESTAMP | .vulnerabilities[].project=$CI_PROJECT_NAME | .vulnerabilities[].pipeline=$CI_PIPELINE_URL | .vulnerabilities[]' gl-sast-report.json | while IFS= read -r item; do
         output=$(echo "$item" | sed "s/'//g")
