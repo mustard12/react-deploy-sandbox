@@ -1,5 +1,5 @@
 {
-  "name": "@etc/blue-green-poc",
+  "name": "@etc/react-deploy-sandbox",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
