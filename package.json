@@ -1,5 +1,5 @@
 {
-  "name": "@arbeon/blue-green-poc",
+  "name": "@etc/blue-green-poc",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
